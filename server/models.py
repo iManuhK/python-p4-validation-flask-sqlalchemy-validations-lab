@@ -16,6 +16,9 @@ class Author(db.Model):
     def validate_name(self, key, _name):
         if _name == "":
             raise ValueError("Name is a must")
+        existing_author = Author.query.filter_by(name=_name).first()
+        if existing_author:
+            raise ValueError("Name must be unique")
         return _name
     
     @validates("phone_number")
